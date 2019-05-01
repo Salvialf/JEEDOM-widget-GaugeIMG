@@ -1,1 +1,1 @@
-# JEEDOM-widget-gaugeIMG_V3
+# gaugeIMG_V3
