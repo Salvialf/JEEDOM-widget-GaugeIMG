@@ -13,7 +13,7 @@
           	<span class="troisquartvalue_gauge#id#" id=troisquartvalue#id#></span>
     		<span class="state_gauge#id#"></span> 
           	<span class="unite_gauge#id#">#unite#</span>
-          <div style="#displayHistory# font-size: 0.8em;" class="historyDisplay#id#">
+          <div style="#displayHistory# font-size: 0.8em;position:absolute;" class="historyDisplay#id#">
 		<span title="Min" class="tooltips">#minHistoryValue#</span>|<span title="Moyenne" class="tooltips" >#averageHistoryValue#</span>|<span title="Max" class="tooltips">#maxHistoryValue#</span> <i class="#tendance#"></i>
 		</div>
 		</div>
@@ -36,7 +36,7 @@ span.unite_gauge#id# {
     font-size:11px;
   	height:100%;
     width:100%;
-  	top:3px;
+  	top:12px;
     position:absolute;
     display:flex;
   	justify-content:center;
@@ -137,7 +137,7 @@ div.gaugeIMGdisplay#id# {
       	$('span.state_gauge#id#').css('top','49px');
       	$('span.state_gauge#id#').css('right','22px');
       	$('span.unite_gauge#id#').css('font-size','6px');
-      	$('span.unite_gauge#id#').css('top','4px');
+      	$('span.unite_gauge#id#').css('top','9px');
       	$('span.minvalue_gauge#id#').css('font-size','0.3em');
       	$('span.minvalue_gauge#id#').css('top','46px');
       	$('span.minvalue_gauge#id#').css('left','15px');      
