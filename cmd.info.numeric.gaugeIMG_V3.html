@@ -1,0 +1,165 @@
+<!-- Mise à jour V3 du widget 
+	dashboard.info.numeric.gaugeIMG 
+	Développé par thecrow06   -->
+
+<div class="cmd #history# tooltips cmd-widget gaugeIMG#id# #displayHistory#" data-type="info" data-subtype="numeric" data-cmd_id="#id#" data-cmd_uid="#uid#" data-version="#version#">
+	<span class='cmdName' style="font-weight: bold;font-size:12px;">#name#</span>
+		<div class="gaugeIMGdisplay#id#">
+			<img src="plugins/widget/core/template/dashboard/cmd.info.numeric.gaugeIMG_V3/fondGreen.png" id="IMGgauge#id#" class="IMGgauge#id#" alt="Fond" >
+          	<span class="minvalue_gauge#id#">#minValue#</span>
+			<span class="maxvalue_gauge#id#">#maxValue#</span>
+          	<span class="midvalue_gauge#id#" id=midvalue#id#></span>
+          	<span class="quartvalue_gauge#id#" id=quartvalue#id#></span>
+          	<span class="troisquartvalue_gauge#id#" id=troisquartvalue#id#></span>
+    		<span class="state_gauge#id#"></span> 
+          	<span class="unite_gauge#id#">#unite#</span>
+          <div style="#displayHistory# font-size: 0.8em;" class="historyDisplay#id#">
+		<span title="Min" class="tooltips">#minHistoryValue#</span>|<span title="Moyenne" class="tooltips" >#averageHistoryValue#</span>|<span title="Max" class="tooltips">#maxHistoryValue#</span> <i class="#tendance#"></i>
+		</div>
+		</div>
+		<div id="gauge#id#" class=" indicator"></div>
+<style>
+@font-face {
+    font-family: "Digital-7";
+  	src:	url("plugins/widget/core/template/dashboard/cmd.info.numeric.gaugeIMG_V3/font/digital-7.ttf") format("truetype");
+  	font-weight:normal;
+  	font-style:normal;
+}
+span.state_gauge#id# {
+    font-family: "Digital-7"; 
+    font-size:24px;
+  	position: absolute;
+  	top: 74px;
+  	right: 32px;
+  }
+span.unite_gauge#id# {
+    font-size:11px;
+  	height:100%;
+    width:100%;
+  	top:3px;
+    position:absolute;
+    display:flex;
+  	justify-content:center;
+    align-items:center;
+  }
+span.minvalue_gauge#id# {
+    font-size: 0.5em;
+  	font-weight: bold;
+  	color: #F0F0F0;
+  	position: absolute;
+  	top: 68px;
+  	left: 25px;
+  }
+span.maxvalue_gauge#id# {
+    font-size: 0.5em;
+  	font-weight: bold;
+  	color: #F0F0F0;
+  	position: absolute;
+  	top: 68px;
+  	right: 25px;
+  }  
+span.midvalue_gauge#id# {
+    font-size: 0.5em;
+  	font-weight: bold;
+  	color: #F0F0F0;
+  	position: absolute;
+  	top: 20px;
+  	left: 46%;
+  }
+span.quartvalue_gauge#id# {
+    font-size: 0.5em;
+  	font-weight: bold;
+  	color: #F0F0F0;
+  	position: absolute;
+  	top: 38px;
+  	left: 27px;
+  }
+span.troisquartvalue_gauge#id# {
+    font-size: 0.5em;
+  	font-weight: bold;
+  	color: #F0F0F0;
+  	position: absolute;
+  	top:38px;
+  	right:27px;
+  }
+img.IMGgauge#id# {
+	width:120px;
+  	height:120px;
+} 
+div.gaugeIMG#id# {
+  	width:140px;
+  	height:160px;
+}
+div.gaugeIMGdisplay#id# {
+  	float: center; 
+  	position: absolute;
+  	left: 10px;
+  	top: 20px;
+}
+#gauge#id# {
+    position: absolute;
+    width:75px;
+    height:75px;
+    background : url("./plugins/widget/core/template/dashboard/cmd.info.numeric.gaugeIMG_V3/centerGreen.png") no-repeat scroll center transparent;
+    left:33px;
+    top:40px;
+  	transition: transform .8s;
+    -webkit-transform: rotate(0deg);
+}
+</style>
+<script>         
+    midvalue = #minValue# + Math.round( ( (#maxValue# - #minValue#) / 2) );
+    quartvalue = #minValue# + Math.round( ( (#maxValue# - #minValue#) /4 ) );
+    troisquartvalue = #minValue# + Math.round( ( (#maxValue# - #minValue#) * (3/4) ) );
+
+    $('#midvalue#id#').text(midvalue);
+	$('#quartvalue#id#').text(quartvalue);
+	$('#troisquartvalue#id#').text(troisquartvalue);
+  
+    jeedom.cmd.update['#id#'] = function(_options){    
+      angle = Math.round( (_options.display_value/#maxValue#) * 220 );
+	$('#gauge#id#.indicator').css( {'-webkit-transform':'rotate('+angle+'deg)','-moz-transform':'rotate('+angle+'deg)','-ms-transform':'rotate('+angle+'deg)','-o-transform':'rotate('+angle+'deg)','transform':'rotate('+angle+'deg)'});
+    $('.cmd[data-cmd_id=#id#] .state_gauge#id#').text(_options.display_value);
+    $('.cmd[data-cmd_uid=#uid#]').attr('title','Valeur du '+_options.valueDate+', collectée le '+_options.collectDate)
+    }
+    jeedom.cmd.update['#id#']({display_value:'#state#',valueDate:'#valueDate#',collectDate:'#collectDate#',alertLevel:'#alertLevel#'});
+  
+  	if ('#jauge#' == 'bleue') {
+  	document.getElementById("IMGgauge#id#").src="plugins/widget/core/template/dashboard/cmd.info.numeric.gaugeIMG_V3/fond.png";}
+  	if ('#aiguille#' == 'bleue') {
+  	document.getElementById('gauge#id#').style.backgroundImage="url(./plugins/widget/core/template/dashboard/cmd.info.numeric.gaugeIMG_V3/center.png)";}
+  	
+	if ('#petit#' == 1) {
+    	$('div.gaugeIMG#id#').css('width','90px');
+      	$('div.gaugeIMG#id#').css('height','110px');
+      	$('div.gaugeIMGdisplay#id#').css('left','2px');
+      	$('span.state_gauge#id#').css('font-size','16px');
+      	$('span.state_gauge#id#').css('top','49px');
+      	$('span.state_gauge#id#').css('right','22px');
+      	$('span.unite_gauge#id#').css('font-size','6px');
+      	$('span.unite_gauge#id#').css('top','4px');
+      	$('span.minvalue_gauge#id#').css('font-size','0.3em');
+      	$('span.minvalue_gauge#id#').css('top','46px');
+      	$('span.minvalue_gauge#id#').css('left','15px');      
+      	$('span.maxvalue_gauge#id#').css('font-size','0.3em');
+      	$('span.maxvalue_gauge#id#').css('top','46px');
+      	$('span.maxvalue_gauge#id#').css('right','15px');      
+      	$('span.midvalue_gauge#id#').css('font-size','0.3em');
+      	$('span.midvalue_gauge#id#').css('top','13px');
+      	$('span.midvalue_gauge#id#').css('right','40px');      
+      	$('span.quartvalue_gauge#id#').css('font-size','0.3em');
+      	$('span.quartvalue_gauge#id#').css('top','25px');
+      	$('span.quartvalue_gauge#id#').css('left','19px');      
+      	$('span.troisquartvalue_gauge#id#').css('font-size','0.3em');
+      	$('span.troisquartvalue_gauge#id#').css('top','25px');
+      	$('span.troisquartvalue_gauge#id#').css('right','19px');      
+      	$('#gauge#id#').css('width','48px');
+      	$('#gauge#id#').css('height','48px');
+      	$('#gauge#id#').css('left','18px');
+      	$('#gauge#id#').css('top','35px');
+      	$('img.IMGgauge#id#').css('width','80px');
+      	$('img.IMGgauge#id#').css('height','80px');
+      	$('.historyDisplay#id#').css('font-size','0.55em');
+    } 
+</script>
+</div>  
