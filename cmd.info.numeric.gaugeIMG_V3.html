@@ -108,17 +108,21 @@ div.gaugeIMGdisplay#id# {
 }
 </style>
 <script>         
-    midvalue = #minValue# + Math.round( ( (#maxValue# - #minValue#) / 2) );
-    quartvalue = #minValue# + Math.round( ( (#maxValue# - #minValue#) /4 ) );
-    troisquartvalue = #minValue# + Math.round( ( (#maxValue# - #minValue#) * (3/4) ) );
+    midvalue = Math.round( (#maxValue# + #minValue#) / 2 );
+    quartvalue = Math.round( (#minValue# + midvalue) / 2 );
+    troisquartvalue = Math.round( (midvalue + #maxValue#) / 2 );
+    plage = #maxValue# - #minValue#;
 
     $('#midvalue#id#').text(midvalue);
-	$('#quartvalue#id#').text(quartvalue);
-	$('#troisquartvalue#id#').text(troisquartvalue);
+    $('#quartvalue#id#').text(quartvalue);
+    $('#troisquartvalue#id#').text(troisquartvalue);
   
     jeedom.cmd.update['#id#'] = function(_options){    
-      angle = Math.round( (_options.display_value/#maxValue#) * 220 );
-	$('#gauge#id#.indicator').css( {'-webkit-transform':'rotate('+angle+'deg)','-moz-transform':'rotate('+angle+'deg)','-ms-transform':'rotate('+angle+'deg)','-o-transform':'rotate('+angle+'deg)','transform':'rotate('+angle+'deg)'});
+    var val = _options.display_value;
+    if ( val < #minValue# ) angle = -10;
+    else if ( val > #maxValue# ) angle = 238;
+    else angle = Math.round( (_options.display_value - #minValue# ) * 228 / plage );
+    $('#gauge#id#.indicator').css( {'-webkit-transform':'rotate('+angle+'deg)','-moz-transform':'rotate('+angle+'deg)','-ms-transform':'rotate('+angle+'deg)','-o-transform':'rotate('+angle+'deg)','transform':'rotate('+angle+'deg)'});
     $('.cmd[data-cmd_id=#id#] .state_gauge#id#').text(_options.display_value);
     $('.cmd[data-cmd_uid=#uid#]').attr('title','Valeur du '+_options.valueDate+', collectée le '+_options.collectDate)
     }
