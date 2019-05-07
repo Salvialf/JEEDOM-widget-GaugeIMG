@@ -5,7 +5,7 @@
 <div class="cmd #history# tooltips cmd-widget gaugeIMG#id# #displayHistory#" data-type="info" data-subtype="numeric" data-cmd_id="#id#" data-cmd_uid="#uid#" data-version="#version#">
 	<span style="font-weight: bold;font-size:12px;#hideCmdName#">#name_display#</span>
 		<div class="gaugeIMGdisplay#id#">
-			<img src="plugins/widget/core/template/dashboard/cmd.info.numeric.gaugeIMG_V3/fondGreen.png" id="IMGgauge#id#" class="IMGgauge#id#" alt="Fond" >
+			<img src="plugins/widget/core/template/dashboard/cmd.info.numeric.gaugeIMG_V3/fond.png" id="IMGgauge#id#" class="IMGgauge#id#" alt="Fond" >
           	<span class="minvalue_gauge#id#">#minValue#</span>
 			<span class="maxvalue_gauge#id#">#maxValue#</span>
           	<span class="midvalue_gauge#id#" id=midvalue#id#></span>
@@ -13,7 +13,7 @@
           	<span class="troisquartvalue_gauge#id#" id=troisquartvalue#id#></span>
     		<span class="state_gauge#id#"></span> 
           	<span class="unite_gauge#id#">#unite#</span>
-          <div style="#displayHistory# font-size: 0.8em;position:absolute;" class="historyDisplay#id#">
+          <div style="#displayHistory# font-size: 0.8em;position:absolute;width:120px;" class="historyDisplay#id#">
 		<span title="Min" class="tooltips">#minHistoryValue#</span>|<span title="Moyenne" class="tooltips" >#averageHistoryValue#</span>|<span title="Max" class="tooltips">#maxHistoryValue#</span> <i class="#tendance#"></i>
 		</div>
 		</div>
@@ -27,9 +27,9 @@
 }
 span.state_gauge#id# {
     font-family: "Digital-7"; 
-    font-size:24px;
+    font-size:25px;
   	position: absolute;
-  	top: 74px;
+  	top: 73px;
   	right: 32px;
   }
 span.unite_gauge#id# {
@@ -100,7 +100,7 @@ div.gaugeIMGdisplay#id# {
     position: absolute;
     width:75px;
     height:75px;
-    background : url("./plugins/widget/core/template/dashboard/cmd.info.numeric.gaugeIMG_V3/centerGreen.png") no-repeat scroll center transparent;
+    background : url("./plugins/widget/core/template/dashboard/cmd.info.numeric.gaugeIMG_V3/center.png") no-repeat scroll center transparent;
     left:33px;
     top:40px;
   	transition: transform .8s;
@@ -112,26 +112,26 @@ div.gaugeIMGdisplay#id# {
     quartvalue = Math.round( (#minValue# + midvalue) / 2 );
     troisquartvalue = Math.round( (midvalue + #maxValue#) / 2 );
     plage = #maxValue# - #minValue#;
-
     $('#midvalue#id#').text(midvalue);
     $('#quartvalue#id#').text(quartvalue);
     $('#troisquartvalue#id#').text(troisquartvalue);
   
     jeedom.cmd.update['#id#'] = function(_options){    
-    var val = _options.display_value;
+ /*   var val = _options.display_value;
     if ( val < #minValue# ) angle = -10;
-    else if ( val > #maxValue# ) angle = 238;
-    else angle = Math.round( (_options.display_value - #minValue# ) * 228 / plage );
+    else if ( val > #maxValue# ) angle = 232;
+    else */
+      angle = Math.round( (_options.display_value - #minValue# ) * 222 / plage );
     $('#gauge#id#.indicator').css( {'-webkit-transform':'rotate('+angle+'deg)','-moz-transform':'rotate('+angle+'deg)','-ms-transform':'rotate('+angle+'deg)','-o-transform':'rotate('+angle+'deg)','transform':'rotate('+angle+'deg)'});
     $('.cmd[data-cmd_id=#id#] .state_gauge#id#').text(_options.display_value);
     $('.cmd[data-cmd_uid=#uid#]').attr('title','Valeur du '+_options.valueDate+', collectée le '+_options.collectDate)
     }
     jeedom.cmd.update['#id#']({display_value:'#state#',valueDate:'#valueDate#',collectDate:'#collectDate#',alertLevel:'#alertLevel#'});
   
-  	if ('#jauge#' == 'bleue') {
-  	document.getElementById("IMGgauge#id#").src="plugins/widget/core/template/dashboard/cmd.info.numeric.gaugeIMG_V3/fond.png";}
-  	if ('#aiguille#' == 'bleue') {
-  	document.getElementById('gauge#id#').style.backgroundImage="url(./plugins/widget/core/template/dashboard/cmd.info.numeric.gaugeIMG_V3/center.png)";}
+  	if ('#jauge#' == 'verte') {
+  	document.getElementById("IMGgauge#id#").src="plugins/widget/core/template/dashboard/cmd.info.numeric.gaugeIMG_V3/fondGreen.png";}
+  	if ('#aiguille#' == 'verte') {
+  	document.getElementById('gauge#id#').style.backgroundImage="url(./plugins/widget/core/template/dashboard/cmd.info.numeric.gaugeIMG_V3/centerGreen.png)";}
   	
 	if ('#petit#' == 1) {
     	$('div.gaugeIMG#id#').css('width','90px');
@@ -164,6 +164,7 @@ div.gaugeIMGdisplay#id# {
       	$('img.IMGgauge#id#').css('width','80px');
       	$('img.IMGgauge#id#').css('height','80px');
       	$('.historyDisplay#id#').css('font-size','0.55em');
-    } 
+      	$('.historyDisplay#id#').css('width','80px');
+    }
 </script>
 </div>  
