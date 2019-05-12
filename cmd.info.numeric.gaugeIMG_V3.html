@@ -1,5 +1,5 @@
-<!-- Mise à jour V3 du widget 
-	dashboard.info.numeric.gaugeIMG 
+<!-- Mise à jour V3 et optimisation
+du widget dashboard.info.numeric.gaugeIMG 
 	Développé par thecrow06   -->
 
 <div class="cmd #history# tooltips cmd-widget gaugeIMG#id# #displayHistory#" data-type="info" data-subtype="numeric" data-cmd_id="#id#" data-cmd_uid="#uid#" data-version="#version#">
@@ -7,11 +7,11 @@
 		<div class="gaugeIMGdisplay#id#">
 			<img id="IMGgauge#id#" class="IMGgauge#id#" alt="Fond" >
           	<span class="minvalue_gauge#id#" id="minvalue#id#"></span>
-			<span class="maxvalue_gauge#id#" id="maxvalue#id#"></span>
           	<span class="midvalue_gauge#id#" id="midvalue#id#"></span>
           	<span class="quartvalue_gauge#id#" id="quartvalue#id#"></span>
           	<span class="troisquartvalue_gauge#id#" id="troisquartvalue#id#"></span>
-    		<span class="state_gauge#id#"></span> 
+    		<span class="maxvalue_gauge#id#" id="maxvalue#id#"></span>
+          	<span class="state_gauge#id#"></span> 
           	<span class="unite_gauge#id#">#unite#</span>
           <div style="#displayHistory# font-size: 0.8em;position:absolute;width:120px;" class="historyDisplay#id#">
 		<span title="Min" class="tooltips">#minHistoryValue#</span>|<span title="Moyenne" class="tooltips" >#averageHistoryValue#</span>|<span title="Max" class="tooltips">#maxHistoryValue#</span> <i class="#tendance#"></i>
@@ -36,15 +36,15 @@
     var val = _options.display_value;
     if (val < valMin) angle = -10;
     else if (val > valMax) angle = 232;
-    else angle = Math.round( (_options.display_value - valMin) * 222 / plage );
+    else angle = Math.round( (_options.display_value - valMin) * 222 / plage);
     $('#gauge#id#.indicator').css( {'-webkit-transform':'rotate('+angle+'deg)','-moz-transform':'rotate('+angle+'deg)','-ms-transform':'rotate('+angle+'deg)','-o-transform':'rotate('+angle+'deg)','transform':'rotate('+angle+'deg)'});
     $('.cmd[data-cmd_id=#id#] .state_gauge#id#').text(_options.display_value);
     $('.cmd[data-cmd_uid=#uid#]').attr('title','Valeur du '+_options.valueDate+', collectée le '+_options.collectDate)
     }
     jeedom.cmd.update['#id#']({display_value:'#state#',valueDate:'#valueDate#',collectDate:'#collectDate#',alertLevel:'#alertLevel#'});
   
-  	var colJauge = ('#jauge#' !='#'+'jauge#') ? "#jauge#":"jaune";
-  	var colAiguille = ('#aiguille#' !='#'+'aiguille#') ? "#aiguille#":"mauve";
+  	var colJauge = ('#jauge#' !='#'+'jauge#') ? "#jauge#":"bleue";
+  	var colAiguille = ('#aiguille#' !='#'+'aiguille#') ? "#aiguille#":"bleue";
   
   	document.getElementById("IMGgauge#id#").src="plugins/widget/core/template/dashboard/cmd.info.numeric.gaugeIMG_V3/fond"+colJauge+".png";
   	document.getElementById('gauge#id#').style.backgroundImage="url(./plugins/widget/core/template/dashboard/cmd.info.numeric.gaugeIMG_V3/center"+colAiguille+".png)";
