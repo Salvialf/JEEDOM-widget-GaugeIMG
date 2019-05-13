@@ -19,20 +19,20 @@ du widget dashboard.info.numeric.gaugeIMG
 		</div>
 		<div id="gauge#id#" class=" indicator"></div>
 <script> 
-    jeedom.cmd.update['#id#'] = function(_options){
   var valMin = is_numeric('#mini#') ? parseFloat('#mini#'):#minValue#;
   var valMax = is_numeric('#maxi#') ? parseFloat('#maxi#'):#maxValue#;
   
-    midvalue = Math.round((valMax + valMin) / 2 );
-    quartvalue = Math.round((valMin + midvalue) / 2 );
-    troisquartvalue = Math.round((midvalue + valMax) / 2 );
+    var midvalue = Math.round((valMax + valMin) / 2);
+    var quartvalue = Math.round((valMin + midvalue) / 2);
+    var troisquartvalue = Math.round((midvalue + valMax) / 2);
     $('#minvalue#id#').text(valMin);
     $('#midvalue#id#').text(midvalue);
     $('#quartvalue#id#').text(quartvalue);
     $('#troisquartvalue#id#').text(troisquartvalue);
     $('#maxvalue#id#').text(valMax);
-      
     var plage = valMax - valMin;
+  
+    jeedom.cmd.update['#id#'] = function(_options){     
     var val = _options.display_value;
     if (valMin < valMax)  {
       if (val < valMin) angle = -10;
@@ -116,42 +116,37 @@ span.unite_gauge#id# {
 span.minvalue_gauge#id# {
     font-size: 0.5em;
   	font-weight: bold;
-  	color: #F0F0F0;
   	position: absolute;
-  	top: 68px;
-  	left: 25px;
+  	top: 65px;
+  	left: 23px;
   }
 span.maxvalue_gauge#id# {
     font-size: 0.5em;
   	font-weight: bold;
-  	color: #F0F0F0;
   	position: absolute;
-  	top: 68px;
-  	right: 25px;
+  	top: 65px;
+  	right: 23px;
   }  
 span.midvalue_gauge#id# {
     font-size: 0.5em;
   	font-weight: bold;
-  	color: #F0F0F0;
   	position: absolute;
   	top: 20px;
-  	left: 46%;
+  	left: 47%;
   }
 span.quartvalue_gauge#id# {
     font-size: 0.5em;
   	font-weight: bold;
-  	color: #F0F0F0;
   	position: absolute;
-  	top: 38px;
-  	left: 27px;
+  	top: 35px;
+  	left: 28px;
   }
 span.troisquartvalue_gauge#id# {
     font-size: 0.5em;
   	font-weight: bold;
-  	color: #F0F0F0;
   	position: absolute;
-  	top:38px;
-  	right:27px;
+  	top:35px;
+  	right:28px;
   }
 img.IMGgauge#id# {
 	width:120px;
@@ -162,6 +157,7 @@ div.gaugeIMG#id# {
   	height:160px;
 }
 div.gaugeIMGdisplay#id# {
+  	color: #F0F0F0;
   	float: center; 
   	position: absolute;
   	left: 10px;
