@@ -1,0 +1,187 @@
+<!-- ################ gaugeIMG ################ -->
+<!-- ********** Paramètres Optionnels ********* -->
+<!-- mini = borne minimum (valeur mini de la commande par défaut)   -->
+<!-- maxi = borne maximum (valeur maxi de la commande par défaut)   -->
+<!-- colJauge = couleur de la jauge (bleue par défaut)   -->
+<!-- colAiguille = couleur de l'aiguille (bleue par défaut)   -->
+<!--** 9 couleurs: bleue, verte, jaune, orange, rouge, rose, mauve, turquoise, blanche **-->
+<!-- change = change la couleur de la jauge selon la valeur (exemple: 0-25:verte,25-75:orange,75-100:rouge)   -->
+<!-- petit = taille 80px*80px (1 | 120px*120px par défaut)   -->
+<!-- time = affiche la durée (duree | date | heure)   -->
+<!-- ########### by @SALVIALF ;) ############# -->
+
+<div class="cmd cmd-widget tooltips #history#" data-type="info" data-subtype="numeric" data-cmd_id="#id#" data-cmd_uid="#uid#" data-version="#version#" data-eqLogic_id="#eqLogic_id#">
+  <div class="title #hide_name#">
+    <div class="cmdName">#name_display#</div>
+  </div>
+  <div id="gaugeIMGdisplay" class="content-lg">
+	<img id="IMGgauge"/>
+    <span id="minvalue"></span>
+    <span id="quartvalue"></span>
+    <span id="midvalue"></span>
+    <span id="troisquartvalue"></span>
+  	<span id="maxvalue"></span>
+    <span id="state_gauge"></span> 
+    <span id="unite_gauge">#unite#</span>
+	<div id="indicator"></div>
+  </div>
+  <div class="cmdStats #hide_history#">
+	<span title='{{Min}}' class='tooltips'>#minHistoryValue#</span>|<span title='{{Moyenne}}' class='tooltips'>#averageHistoryValue#</span>|<span title='{{Max}}' class='tooltips'>#maxHistoryValue#</span> <i class="#tendance#"></i>
+  </div>
+  <span class="timeCmd label label-default" data-type="info"></span>
+<script>   
+    jeedom.cmd.update['#id#'] = function(_options){
+    var cmd = $('.cmd[data-cmd_id=#id#]');
+  	var valMin = is_numeric('#mini#') ? parseFloat('#mini#'):parseFloat('#minValue#');
+  	var valMax = is_numeric('#maxi#') ? parseFloat('#maxi#'):parseFloat('#maxValue#');
+    var midvalue = Math.round((valMax + valMin)*50)/100;
+    var quartvalue = Math.round((valMin + midvalue)*50)/100;
+    var troisquartvalue = Math.round((midvalue + valMax)*50)/100;
+    var val = _options.display_value;
+    var plage = valMax - valMin;
+    var angle = '';
+  	var colJauge = ('#jauge#' !='#'+'jauge#') ? "#jauge#":"bleue";
+  	var colAiguille = ('#aiguille#' !='#'+'aiguille#') ? "#aiguille#":"bleue";
+    var changeColor = ('#change#' !='#'+'change#') ? '#change#':false;
+       
+   if (changeColor != false) {
+   	var arrChange = changeColor.split(',');
+     for (var i=0; i < arrChange.length; i++) {
+      var level = arrChange[i].split(':');
+      var palier = level[0].split('-');
+      var palierMin = palier[0];
+      var palierMax = palier[1];
+      var palierColor = level[1];
+    	if (val >= palierMin && val < palierMax) {
+       	colJauge = palierColor;
+		} 
+     }
+    }
+
+    if (plage == 0) angle = -70;
+    else if (valMin < valMax)  {
+      if (val < valMin) angle = -10;
+      else if (val > valMax) angle = 232;
+      else angle = (val - valMin) * 224 / plage;
+    } else {
+      if (val < valMax) angle = 232;
+      else if (val > valMin) angle = -10;
+      else angle = (val - valMin) * 224 / plage;
+    }
+      
+    cmd.find('#minvalue').text(valMin);
+    cmd.find('#midvalue').text(midvalue);
+    cmd.find('#quartvalue').text(quartvalue);
+    cmd.find('#troisquartvalue').text(troisquartvalue);
+    cmd.find('#maxvalue').text(valMax); 
+    cmd.find('#IMGgauge').attr('src','data/customTemplates/dashboard/cmd.info.numeric.gaugeIMG/fond'+colJauge+'.png');  
+    cmd.find('#indicator').css({'background':'url(data/customTemplates/dashboard/cmd.info.numeric.gaugeIMG/center'+colAiguille+'.png) center','-webkit-transform':'rotate('+angle+'deg)','-moz-transform':'rotate('+angle+'deg)','-ms-transform':'rotate('+angle+'deg)','-o-transform':'rotate('+angle+'deg)','transform':'rotate('+angle+'deg)'});
+    cmd.find('#state_gauge').text(_options.display_value);
+    cmd.attr('title','{{Date de valeur}} : '+_options.valueDate+'<br/>{{Date de collecte}} : '+_options.collectDate+'<br/>{{Valeur}} : '+_options.display_value+'#unite#');
+          
+    if ('#time#' == 'duree') {  
+      jeedom.cmd.displayDuration(_options.valueDate,cmd.find('.timeCmd'));
+      }
+    else if ('#time#' == 'date') {
+      var week = ['dim.', 'lun.', 'mar.', 'mer.', 'jeu.', 'ven.', 'sam.'];
+   	  var date = new Date(_options.valueDate.replace(' ', 'T'));
+      var t = _options.valueDate.split(/[- :]/);
+	  var format = week[date.getDay()]+" "+t[2]+"/"+t[1];
+      var time = "à "+t[3]+":"+t[4];
+      cmd.find('.timeCmd').html(format+'<br>'+time);
+      }
+    else if ('#time#' == 'heure') {
+      var date = new Date(_options.valueDate.replace(' ', 'T'));
+      var t = _options.valueDate.split(/[- :]/);
+      var time = "à "+t[3]+":"+t[4]+":"+t[5];  
+      cmd.find('.timeCmd').html(time);
+      }  
+	}
+    jeedom.cmd.update['#id#']({display_value:'#state#',valueDate:'#valueDate#',collectDate:'#collectDate#',alertLevel:'#alertLevel#'});
+	
+  	if ('#petit#' == 1) {
+      var cmd = $('.cmd[data-cmd_id=#id#]');
+      cmd.find('#IMGgauge').css({'height':'80px','width':'80px'});
+      cmd.find('#indicator').css({'height':'48px','width':'48px','left':'16px','top':'15px'});
+      cmd.find('#minvalue').css({'font-size':'0.5em','left':'15px','top':'43px'});
+      cmd.find('#quartvalue').css({'font-size':'0.5em','left':'17px','top':'24px'});
+      cmd.find('#midvalue').css({'font-size':'0.5em','top':'10px'});
+      cmd.find('#troisquartvalue').css({'font-size':'0.5em','right':'17px','top':'24px'});
+      cmd.find('#maxvalue').css({'font-size':'0.5em','right':'15px','top':'43px'});
+      cmd.find('#state_gauge').css({'font-size':'17px','right':'21px','top':'54px'});
+      cmd.find('#unite_gauge').css({'font-size':'6px','top':'44px'});
+    }
+</script>
+<style>
+@font-face {
+    font-family: "Digital7";
+  	src: url("data/customTemplates/dashboard/cmd.info.numeric.gaugeIMG/font/digital-7.ttf") format("truetype");
+}
+#state_gauge {
+    font-family:"Digital7"; 
+    font-size:26px;
+  	position:absolute;
+  	top:84px;
+  	right:31px;
+    font-weight:normal;
+  }
+#unite_gauge {
+    font-size:10px;
+    width:100%;
+  	top:67px;
+    position:absolute;
+    display:block;
+  	text-align:center;
+  }
+#minvalue {
+    font-size:0.75em;
+  	font-weight:bold;
+  	position:absolute;
+  	top:65px;
+  	left:22px;
+  }
+#quartvalue {
+    font-size:0.75em;
+  	font-weight:bold;
+  	position:absolute;
+  	top:35px;
+  	left:26px;
+  }  
+#midvalue {
+  	display:block;
+ 	width:100%;
+    font-size:0.75em;
+  	font-weight:bold;
+  	position:absolute;
+  	top:18px;
+  	text-align:center;
+  }
+#troisquartvalue {
+    font-size:0.75em;
+  	font-weight:bold;
+  	position:absolute;
+  	top:35px;
+  	right:26px;
+  }
+#maxvalue {
+    font-size:0.75em;
+  	font-weight:bold;
+  	position:absolute;
+  	top:65px;
+  	right:22px;
+  }
+#gaugeIMGdisplay {
+  	position:relative;
+  	color:#F0F0F0;
+}
+#indicator {
+    position:absolute;
+    width:75px;
+    height:75px;
+  	left:23px;
+    top:20px;
+  	transition:transform .8s;
+    -webkit-transform:rotate(0deg);
+}
+</style>
+</div>
