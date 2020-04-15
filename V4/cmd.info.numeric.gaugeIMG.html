@@ -37,7 +37,7 @@
     var midvalue = Math.round((valMax + valMin)*50)/100;
     var quartvalue = Math.round((valMin + midvalue)*50)/100;
     var troisquartvalue = Math.round((midvalue + valMax)*50)/100;
-    var val = _options.display_value;
+    var val = is_float(parseFloat(_options.display_value)) ? parseFloat(_options.display_value).toFixed(1) : parseInt(_options.display_value);
     var plage = valMax - valMin;
     var angle = '';
   	var colJauge = ('#jauge#' !='#'+'jauge#') ? "#jauge#":"bleue";
@@ -48,7 +48,7 @@
    	var arrChange = changeColor.split(',');
      for (var i=0; i < arrChange.length; i++) {
       var level = arrChange[i].split(':');
-      var palier = level[0].split('-');
+      var palier = level[0].split('_');
       var palierMin = palier[0];
       var palierMax = palier[1];
       var palierColor = level[1];
@@ -76,7 +76,7 @@
     cmd.find('#maxvalue').text(valMax); 
     cmd.find('#IMGgauge').attr('src','data/customTemplates/dashboard/cmd.info.numeric.gaugeIMG/fond'+colJauge+'.png');  
     cmd.find('#indicator').css({'background':'url(data/customTemplates/dashboard/cmd.info.numeric.gaugeIMG/center'+colAiguille+'.png) center','-webkit-transform':'rotate('+angle+'deg)','-moz-transform':'rotate('+angle+'deg)','-ms-transform':'rotate('+angle+'deg)','-o-transform':'rotate('+angle+'deg)','transform':'rotate('+angle+'deg)'});
-    cmd.find('#state_gauge').text(_options.display_value);
+    cmd.find('#state_gauge').text(val);
     cmd.attr('title','{{Date de valeur}} : '+_options.valueDate+'<br/>{{Date de collecte}} : '+_options.collectDate+'<br/>{{Valeur}} : '+_options.display_value+'#unite#');
           
     if ('#time#' == 'duree') {  
