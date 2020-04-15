@@ -21,8 +21,8 @@
     <span id="midvalue"></span>
     <span id="troisquartvalue"></span>
   	<span id="maxvalue"></span>
-    <span id="state_gauge"></span> 
-    <span id="unite_gauge">#unite#</span>
+    <div id="state_gauge"></div> 
+    <div id="unite_gauge">#unite#</div>
 	<div id="indicator"></div>
   </div>
   <div class="cmdStats #hide_history#">
@@ -108,7 +108,7 @@
       cmd.find('#midvalue').css({'font-size':'0.5em','top':'10px'});
       cmd.find('#troisquartvalue').css({'font-size':'0.5em','right':'17px','top':'24px'});
       cmd.find('#maxvalue').css({'font-size':'0.5em','right':'15px','top':'43px'});
-      cmd.find('#state_gauge').css({'font-size':'17px','right':'21px','top':'54px'});
+      cmd.find('#state_gauge').css({'font-size':'17px','top':'54px'});
       cmd.find('#unite_gauge').css({'font-size':'6px','top':'44px'});
     }
 </script>
@@ -122,7 +122,8 @@
     font-size:26px;
   	position:absolute;
   	top:84px;
-  	right:31px;
+    width:100%;
+  	text-align:center;
     font-weight:normal;
   }
 #unite_gauge {
@@ -130,8 +131,8 @@
     width:100%;
   	top:67px;
     position:absolute;
-    display:block;
   	text-align:center;
+    font-weight:normal;
   }
 #minvalue {
     font-size:0.75em;
