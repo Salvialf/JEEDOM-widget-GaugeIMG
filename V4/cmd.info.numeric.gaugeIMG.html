@@ -31,27 +31,27 @@
   <span class="timeCmd label label-default" data-type="info"></span>
 <script>   
     jeedom.cmd.update['#id#'] = function(_options){
-    var cmd = $('.cmd[data-cmd_id=#id#]');
-  	var valMin = is_numeric('#mini#') ? parseFloat('#mini#'):parseFloat('#minValue#');
-  	var valMax = is_numeric('#maxi#') ? parseFloat('#maxi#'):parseFloat('#maxValue#');
-    var midvalue = Math.round((valMax + valMin)*50)/100;
-    var quartvalue = Math.round((valMin + midvalue)*50)/100;
-    var troisquartvalue = Math.round((midvalue + valMax)*50)/100;
-    var val = is_float(parseFloat(_options.display_value)) ? parseFloat(_options.display_value).toFixed(1) : parseInt(_options.display_value);
-    var plage = valMax - valMin;
-    var angle = '';
-  	var colJauge = ('#jauge#' !='#'+'jauge#') ? "#jauge#":"bleue";
-  	var colAiguille = ('#aiguille#' !='#'+'aiguille#') ? "#aiguille#":"bleue";
-    var changeColor = ('#change#' !='#'+'change#') ? '#change#':false;
+    let cmd = $('.cmd[data-cmd_id=#id#]');
+  	let valMin = is_numeric('#mini#') ? parseFloat('#mini#'):parseFloat('#minValue#');
+  	let valMax = is_numeric('#maxi#') ? parseFloat('#maxi#'):parseFloat('#maxValue#');
+    let midvalue = Math.round((valMax + valMin)*50)/100;
+    let quartvalue = Math.round((valMin + midvalue)*50)/100;
+    let troisquartvalue = Math.round((midvalue + valMax)*50)/100;
+    let val = is_float(parseFloat(_options.display_value)) ? parseFloat(_options.display_value).toFixed(1) : parseInt(_options.display_value);
+    let plage = valMax - valMin;
+    let angle = '';
+  	let colJauge = ('#jauge#' !='#'+'jauge#') ? "#jauge#":"bleue";
+  	let colAiguille = ('#aiguille#' !='#'+'aiguille#') ? "#aiguille#":"bleue";
+    let changeColor = ('#change#' !='#'+'change#') ? '#change#':false;
        
    if (changeColor != false) {
-   	var arrChange = changeColor.split(',');
-     for (var i=0; i < arrChange.length; i++) {
-      var level = arrChange[i].split(':');
-      var palier = level[0].split('_');
-      var palierMin = palier[0];
-      var palierMax = palier[1];
-      var palierColor = level[1];
+   	let arrChange = changeColor.split(',');
+     for (let i=0; i < arrChange.length; i++) {
+      let level = arrChange[i].split(':');
+      let palier = level[0].split('_');
+      let palierMin = palier[0];
+      let palierMax = palier[1];
+      let palierColor = level[1];
     	if (val >= palierMin && val < palierMax) {
        	colJauge = palierColor;
 		} 
@@ -83,24 +83,24 @@
       jeedom.cmd.displayDuration(_options.valueDate,cmd.find('.timeCmd'));
       }
     else if ('#time#' == 'date') {
-      var week = ['dim.', 'lun.', 'mar.', 'mer.', 'jeu.', 'ven.', 'sam.'];
-   	  var date = new Date(_options.valueDate.replace(' ', 'T'));
-      var t = _options.valueDate.split(/[- :]/);
-	  var format = week[date.getDay()]+" "+t[2]+"/"+t[1];
-      var time = "à "+t[3]+":"+t[4];
+      let week = ['dim.', 'lun.', 'mar.', 'mer.', 'jeu.', 'ven.', 'sam.'];
+   	  let date = new Date(_options.valueDate.replace(' ', 'T'));
+      let t = _options.valueDate.split(/[- :]/);
+	  let format = week[date.getDay()]+" "+t[2]+"/"+t[1];
+      let time = "à "+t[3]+":"+t[4];
       cmd.find('.timeCmd').html(format+'<br>'+time);
       }
     else if ('#time#' == 'heure') {
-      var date = new Date(_options.valueDate.replace(' ', 'T'));
-      var t = _options.valueDate.split(/[- :]/);
-      var time = "à "+t[3]+":"+t[4]+":"+t[5];  
+      let date = new Date(_options.valueDate.replace(' ', 'T'));
+      let t = _options.valueDate.split(/[- :]/);
+      let time = "à "+t[3]+":"+t[4]+":"+t[5];  
       cmd.find('.timeCmd').html(time);
       }  
 	}
     jeedom.cmd.update['#id#']({display_value:'#state#',valueDate:'#valueDate#',collectDate:'#collectDate#',alertLevel:'#alertLevel#'});
 	
   	if ('#petit#' == 1) {
-      var cmd = $('.cmd[data-cmd_id=#id#]');
+      let cmd = $('.cmd[data-cmd_id=#id#]');
       cmd.find('#IMGgauge').css({'height':'80px','width':'80px'});
       cmd.find('#indicator').css({'height':'48px','width':'48px','left':'16px','top':'15px'});
       cmd.find('#minvalue').css({'font-size':'0.5em','left':'15px','top':'43px'});
