@@ -49,8 +49,8 @@
      for (let i=0; i < arrChange.length; i++) {
       let level = arrChange[i].split(':');
       let palier = level[0].split('_');
-      let palierMin = palier[0];
-      let palierMax = palier[1];
+      let palierMin = parseFloat(palier[0]);
+      let palierMax = parseFloat(palier[1]);
       let palierColor = level[1];
     	if (val >= palierMin && val < palierMax) {
        	colJauge = palierColor;
