@@ -9,17 +9,17 @@
     <span id="midvalue"></span>
     <span id="troisquartvalue"></span>
   	<span id="maxvalue"></span>
-    <div id="state_gauge"></div> 
+    <div id="state_gauge"></div>
     <div id="unite_gauge">#unite#</div>
 	<div id="indicator"></div>
   </div>
-  <div class="cmdStats #hide_history#">
+  <div class="cmdStats #hide_history#" style="margin-top:2px;">
 	<span title='{{Min}}' class='tooltips'>#minHistoryValue#</span>|<span title='{{Moyenne}}' class='tooltips'>#averageHistoryValue#</span>|<span title='{{Max}}' class='tooltips'>#maxHistoryValue#</span> <i class="#tendance#"></i>
   </div>
-  <span style="display:inline-block;" class="timeCmd label label-default" data-type="info" data-cmd_id="#value_id#"></span>
-<script>   
+  <span class="timeCmd" data-type="info"></span>
+<script>
     jeedom.cmd.update['#id#'] = function(_options){
-    let cmd = $('.cmd[data-cmd_id=#id#]');
+    let cmd = $('.cmd[data-cmd_uid=#uid#]');
   	let valMin = is_numeric('#mini#') ? parseFloat('#mini#'):parseFloat('#minValue#');
   	let valMax = is_numeric('#maxi#') ? parseFloat('#maxi#'):parseFloat('#maxValue#');
     let midvalue = Math.round((valMax + valMin)*50)/100;
@@ -28,10 +28,11 @@
     let val = is_float(parseFloat(_options.display_value)) ? parseFloat(_options.display_value).toFixed(1) : parseInt(_options.display_value);
     let plage = valMax - valMin;
     let angle = '';
-  	let colJauge = ('#jauge#' !='#'+'jauge#') ? "#jauge#":"bleue";
-  	let colAiguille = ('#aiguille#' !='#'+'aiguille#') ? "#aiguille#":"bleue";
+  	let colJauge = ('#gauge#' !='#'+'gauge#') ? "#gauge#":"blue";
+  	let colAiguille = ('#arrow#' !='#'+'arrow#') ? "#arrow#":"blue";
     let changeColor = ('#change#' !='#'+'change#') ? '#change#':false;
-       
+    ('#CSS-time#' != '#'+'CSS-time#' && '#CSS-time#' != ' ') ? cmd.find('.timeCmd').attr('style','#CSS-time#') : '';
+
    if (changeColor != false) {
    	let arrChange = changeColor.split(',');
      for (let i=0; i < arrChange.length; i++) {
@@ -42,7 +43,7 @@
       let palierColor = level[1];
     	if (val >= palierMin && val < palierMax) {
        	colJauge = palierColor;
-		} 
+		}
      }
     }
 
@@ -50,44 +51,43 @@
     else if (valMin < valMax)  {
       if (val < valMin) angle = -10;
       else if (val > valMax) angle = 232;
-      else angle = (val - valMin) * 224 / plage;
+      else angle = (val - valMin) * 225 / plage;
     } else {
       if (val < valMax) angle = 232;
       else if (val > valMin) angle = -10;
-      else angle = (val - valMin) * 224 / plage;
+      else angle = (val - valMin) * 225 / plage;
     }
-      
+
     cmd.find('#minvalue').text(valMin);
     cmd.find('#midvalue').text(midvalue);
     cmd.find('#quartvalue').text(quartvalue);
     cmd.find('#troisquartvalue').text(troisquartvalue);
-    cmd.find('#maxvalue').text(valMax); 
-    cmd.find('#IMGgauge').attr('src','plugins/pimpJeedom/core/template/dashboard/cmd.info.numeric.GaugeIMG/fond'+colJauge+'.png');  
-    cmd.find('#indicator').css({'background':'url(plugins/pimpJeedom/core/template/dashboard/cmd.info.numeric.GaugeIMG/center'+colAiguille+'.png) center','-webkit-transform':'rotate('+angle+'deg)','-moz-transform':'rotate('+angle+'deg)','-ms-transform':'rotate('+angle+'deg)','-o-transform':'rotate('+angle+'deg)','transform':'rotate('+angle+'deg)'});
+    cmd.find('#maxvalue').text(valMax);
+    cmd.find('#IMGgauge').attr('src','plugins/pimpJeedom/core/template/dashboard/cmd.info.numeric.GaugeIMG/fond_'+colJauge+'.png');
+    cmd.find('#indicator').css({'background':'url(plugins/pimpJeedom/core/template/dashboard/cmd.info.numeric.GaugeIMG/center_'+colAiguille+'.png) center','-webkit-transform':'rotate('+angle+'deg)','-moz-transform':'rotate('+angle+'deg)','-ms-transform':'rotate('+angle+'deg)','-o-transform':'rotate('+angle+'deg)','transform':'rotate('+angle+'deg)'});
     cmd.find('#state_gauge').text(val);
     cmd.attr('title','{{Date de valeur}} : '+_options.valueDate+'<br/>{{Date de collecte}} : '+_options.collectDate+'<br/>{{Valeur}} : '+_options.display_value+'#unite#');
-          
-    if ('#time#' == 'durée') {  
+
+    if ('#time#' == 'duration') {
       jeedom.cmd.displayDuration(_options.valueDate,cmd.find('.timeCmd'));
-      }
-    else if ('#time#' == 'date') {
+    } else if ('#time#' == 'date') {
       let week = ['dim.', 'lun.', 'mar.', 'mer.', 'jeu.', 'ven.', 'sam.'];
    	  let date = new Date(_options.valueDate.replace(' ', 'T'));
       let t = _options.valueDate.split(/[- :]/);
-	  let format = week[date.getDay()]+" "+t[2]+"/"+t[1];
+	    let format = week[date.getDay()]+" "+t[2]+"/"+t[1];
       let time = "à "+t[3]+":"+t[4];
       cmd.find('.timeCmd').html(format+'<br>'+time);
-      }
-    else if ('#time#' == 'heure') {
-      let date = new Date(_options.valueDate.replace(' ', 'T'));
+    } else if ('#time#' == 'hour') {
       let t = _options.valueDate.split(/[- :]/);
-      let time = "à "+t[3]+":"+t[4]+":"+t[5];  
+      let time = "à "+t[3]+":"+t[4]+":"+t[5];
       cmd.find('.timeCmd').html(time);
-      }  
+    } else {
+      cmd.find('.timeCmd').attr('style','');
+    }
 	}
     jeedom.cmd.update['#id#']({display_value:'#state#',valueDate:'#valueDate#',collectDate:'#collectDate#',alertLevel:'#alertLevel#'});
-	
-  	if ('#taille#' == 'petit') {
+
+  	if ('#size#' == 'small') {
       let cmd = $('.cmd[data-cmd_id=#id#]');
       cmd.find('#IMGgauge').css({'height':'80px','width':'80px'});
       cmd.find('#indicator').css({'height':'48px','width':'48px','left':'16px','top':'15px'});
@@ -99,26 +99,26 @@
       cmd.find('#state_gauge').css({'font-size':'17px','top':'54px'});
       cmd.find('#unite_gauge').css({'font-size':'6px','top':'44px'});
     }
-    if ('#taille#' == 'grand') {
+    if ('#size#' == 'big') {
       let cmd = $('.cmd[data-cmd_id=#id#]');
       cmd.find('#IMGgauge').css({'height':'160px','width':'160px'});
-      cmd.find('#indicator').css({'height':'96px','width':'96px','left':'32px','top':'30px'});
-      cmd.find('#minvalue').css({'font-size':'1em','left':'30px','top':'86px'});
+      cmd.find('#indicator').css({'height':'100px','width':'100px','left':'30px','top':'30px'});
+      cmd.find('#minvalue').css({'font-size':'1em','left':'30px','top':'88px'});
       cmd.find('#quartvalue').css({'font-size':'1em','left':'34px','top':'48px'});
-      cmd.find('#midvalue').css({'font-size':'1em','top':'20px'});
+      cmd.find('#midvalue').css({'font-size':'1em','top':'25px'});
       cmd.find('#troisquartvalue').css({'font-size':'1em','right':'34px','top':'48px'});
-      cmd.find('#maxvalue').css({'font-size':'1em','right':'30px','top':'86px'});
-      cmd.find('#state_gauge').css({'font-size':'34px','top':'113px'});
-      cmd.find('#unite_gauge').css({'font-size':'12px','top':'88px'});
+      cmd.find('#maxvalue').css({'font-size':'1em','right':'30px','top':'88px'});
+      cmd.find('#state_gauge').css({'font-size':'34px','top':'114px'});
+      cmd.find('#unite_gauge').css({'font-size':'12px','top':'90px'});
     }
 </script>
 <style>
 @font-face {
     font-family: "Digital7";
-  	src: url("plugins/pimpJeedom/core/template/dashboard/cmd.info.numeric.GaugeIMG/font/digital-7.ttf") format("truetype");
+  	src: url("plugins/pimpJeedom/core/template/dashboard/cmd.info.numeric.GaugeIMG/digital-7.ttf") format("truetype");
 }
 #state_gauge {
-    font-family:"Digital7"; 
+    font-family:"Digital7";
     font-size:26px;
   	position:absolute;
   	top:84px;
@@ -145,12 +145,13 @@
     font-size:0.75em;
   	font-weight:bold;
   	position:absolute;
-  	top:35px;
+  	top:33px;
   	left:26px;
-  }  
+    transform:rotate(45deg);
+  }
 #midvalue {
   	display:block;
- 	width:100%;
+ 	  width:100%;
     font-size:0.75em;
   	font-weight:bold;
   	position:absolute;
@@ -161,8 +162,9 @@
     font-size:0.75em;
   	font-weight:bold;
   	position:absolute;
-  	top:35px;
+  	top:33px;
   	right:26px;
+    transform:rotate(-45deg);
   }
 #maxvalue {
     font-size:0.75em;
@@ -183,6 +185,13 @@
     top:20px;
   	transition:transform .8s;
     -webkit-transform:rotate(0deg);
+}
+.timeCmd {
+font-size:11px;
+padding:2px 4px 2px 4px;
+margin-top:4px;
+line-height:1em!important;
+display:inline-block!important;
 }
 </style>
 </div>
