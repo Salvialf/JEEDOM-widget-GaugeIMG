@@ -1,4 +1,4 @@
-<div class="cmd cmd-widget tooltips #history#" data-type="info" data-subtype="numeric" data-cmd_id="#id#" data-cmd_uid="#uid#" data-version="#version#" data-eqLogic_id="#eqLogic_id#">
+<div style="margin:5px 2px 10px 2px;" class="cmd cmd-widget tooltips #history#" data-type="info" data-subtype="numeric" data-cmd_id="#id#" data-cmd_uid="#uid#" data-version="#version#" data-eqLogic_id="#eqLogic_id#">
   <div class="title #hide_name#">
     <div class="cmdName">#name_display#</div>
   </div>
@@ -38,8 +38,8 @@
      for (let i=0; i < arrChange.length; i++) {
       let level = arrChange[i].split(':');
       let palier = level[0].split('_');
-      let palierMin = palier[0];
-      let palierMax = palier[1];
+      let palierMin = parseFloat(palier[0]);
+      let palierMax = parseFloat(palier[1]);
       let palierColor = level[1];
     	if (val >= palierMin && val < palierMax) {
        	colJauge = palierColor;
