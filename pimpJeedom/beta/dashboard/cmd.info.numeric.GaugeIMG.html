@@ -1,4 +1,4 @@
-<div style="margin:5px 2px 10px 2px;" class="cmd cmd-widget tooltips #history#" data-type="info" data-subtype="numeric" data-cmd_id="#id#" data-cmd_uid="#uid#" data-version="#version#" data-eqLogic_id="#eqLogic_id#">
+<div style="margin:5px 2px 5px 2px;" class="cmd cmd-widget tooltips #history#" data-type="info" data-subtype="numeric" data-cmd_id="#id#" data-cmd_uid="#uid#" data-version="#version#" data-eqLogic_id="#eqLogic_id#">
   <div class="title #hide_name#">
     <div class="cmdName">#name_display#</div>
   </div>
@@ -82,7 +82,7 @@
       let time = "à "+t[3]+":"+t[4]+":"+t[5];
       cmd.find('.timeCmd').html(time);
     } else {
-      cmd.find('.timeCmd').attr('style','');
+      cmd.find('.timeCmd').remove();
     }
 	}
     jeedom.cmd.update['#id#']({display_value:'#state#',valueDate:'#valueDate#',collectDate:'#collectDate#',alertLevel:'#alertLevel#'});
